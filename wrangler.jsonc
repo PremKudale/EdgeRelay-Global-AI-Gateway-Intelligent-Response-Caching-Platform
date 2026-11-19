@@ -1,0 +1,42 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "edgecache",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "kv_namespaces": [
+    { "binding": "CACHE" }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "edgecache",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+    }
+  ],
+  "r2_buckets": [
+    { "binding": "ARCHIVE", "bucket_name": "edgecache-archive" }
+  ],
+  "queues": {
+    "producers": [
+      { "binding": "ANALYTICS_QUEUE", "queue": "edgecache-analytics" }
+    ],
+    "consumers": [
+      { "queue": "edgecache-analytics", "max_batch_size": 25, "max_batch_timeout": 10 }
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "CACHE_COORDINATOR", "class_name": "CacheCoordinator" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["CacheCoordinator"] }
+  ],
+  "vars": {
+    "UPSTREAM_BASE_URL": "https://api.openai.com/v1",
+    "CACHE_TTL_SECONDS": "3600",
+    "STALE_TTL_SECONDS": "86400"
+  }
+}

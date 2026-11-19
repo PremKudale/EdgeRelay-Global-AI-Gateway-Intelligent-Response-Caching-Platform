@@ -1,0 +1,6 @@
+# Never commit the real file. Obtain this from your LLM provider.
+OPENAI_API_KEY="sk-..."
+# Optional: restrict EdgeCache callers. Use this key as Bearer or x-api-key.
+EDGE_CACHE_API_KEY="local-development-key"
+# Optional: use a Cloudflare AI Gateway OpenAI-compatible endpoint instead.
+# UPSTREAM_BASE_URL="https://gateway.ai.cloudflare.com/v1/<account-id>/<gateway>/openai"
